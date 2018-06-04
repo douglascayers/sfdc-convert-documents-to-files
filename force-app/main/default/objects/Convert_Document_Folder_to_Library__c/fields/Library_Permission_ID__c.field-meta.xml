@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Library_Permission_ID__c</fullName>
+    <description>The content library permission to grant to members of the new library. In Setup menu in Classic UI, find "Content Permissions". Learn more about content library management at https://help.salesforce.com/articleView?id=collab_files_library_folders.htm</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The content library permission to grant to members of the new library.</inlineHelpText>
+    <label>Library Permission ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

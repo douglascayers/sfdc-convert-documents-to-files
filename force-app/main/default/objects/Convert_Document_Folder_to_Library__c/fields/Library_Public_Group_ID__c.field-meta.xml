@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Library_Public_Group_ID__c</fullName>
+    <description>Content Libraries can only be shared to User IDs and Public Group IDs. This ID is a Public Group that represents the same membership of all the groups and roles shared to the original Document Folder.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Content Libraries can only be shared to User IDs and Public Group IDs. This ID is a Public Group that represents the same membership of all the groups and roles shared to the original Document Folder.</inlineHelpText>
+    <label>Library Public Group ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
