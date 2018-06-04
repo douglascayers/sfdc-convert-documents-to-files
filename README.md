@@ -6,6 +6,8 @@ Overview
 
 coming soon...
 
+things to put in the wiki...
+
 post-conversion, for any documents that were marked as externally available, then need to [enable public link sharing](https://help.salesforce.com/articleView?id=collab_files_sharing_via_link.htm&type=5) on the converted files.
 
 Since Documents are not supported in Lightning Experience, you will want to initiate the conversion process from Classic.
@@ -13,6 +15,7 @@ Since Documents are not supported in Lightning Experience, you will want to init
 If you cannot switch to Classic, make sure this feature has not been hidden from your user.
 [Hide Option to Switch to Salesforce Classic](https://releasenotes.docs.salesforce.com/en-us/summer17/release-notes/rn_general_lex_hide_switcher.htm)
 
+Documents whose file size is 0 bytes are not converted, unless their type is URL (aka, bookmarks).
 
 Documentation and Discussion
 --------------------------

@@ -5,7 +5,7 @@
  * License: BSD 3-Clause License
  */
 @IsTest
-private class Doc2File_GetFolderMetadataBatchableTest {
+private class Doc2File_PrepareFoldersBatchableTest {
 
     @IsTest
     static void test_batch() {

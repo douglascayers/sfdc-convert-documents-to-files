@@ -11,7 +11,17 @@
     <description>Grants access to Convert Documents to Files. This should only be granted to System Administrators.</description>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Convert_Document_Folder_to_Library__c.Folder_Developer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Convert_Document_Folder_to_Library__c.Folder_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convert_Document_Folder_to_Library__c.Folder_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -30,6 +30,18 @@ public class Doc2File_SObjectUtils {
         return recordsMap;
     }
 
+    public static Map<String, ContentWorkspace> toMapByKeyField( SObjectField mapKeyField, List<ContentWorkspace> records ) {
+
+        Map<String, ContentWorkspace> recordsMap = new Map<String, ContentWorkspace>();
+
+        for ( ContentWorkspace record : records ) {
+            String mapKey = String.valueOf( record.get( mapKeyField ) );
+            recordsMap.put( mapKey, record );
+        }
+
+        return recordsMap;
+    }
+
 }
 /*
 BSD 3-Clause License

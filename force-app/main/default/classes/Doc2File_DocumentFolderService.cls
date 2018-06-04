@@ -4,7 +4,7 @@
  * GitHub: https://github.com/douglascayers/sfdx-convert-documents-to-files
  * License: BSD 3-Clause License
  */
-public with sharing class Doc2File_DocumentFolderService {
+public class Doc2File_DocumentFolderService {
 
     private String namedCredentialName { get; set; }
 

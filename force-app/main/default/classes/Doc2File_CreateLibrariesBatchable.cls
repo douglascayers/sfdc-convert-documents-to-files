@@ -7,9 +7,19 @@
 public without sharing class Doc2File_CreateLibrariesBatchable implements Database.Batchable<Convert_Document_Folder_to_Library__c> {
 
     public List<Convert_Document_Folder_to_Library__c> start( Database.BatchableContext context ) {
+
+        System.debug( 'Doc2File_CreateLibrariesBatchable.start: ' + context );
+
         return [
             SELECT
-                Id
+                Id,
+                Folder_ID__c,
+                Folder_Name__c,
+                Folder_Developer_Name__c,
+                Group_IDs__c,
+                Library_ID__c,
+                Library_Permission_ID__c,
+                Library_Public_Group_ID__c
             FROM
                 Convert_Document_Folder_to_Library__c
             WHERE
@@ -19,49 +29,23 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
 
     public void execute( Database.BatchableContext context, List<Convert_Document_Folder_to_Library__c> records ) {
 
+        System.debug( 'Doc2File_CreateLibrariesBatchable.execute: ' + context );
+
+        Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+
+        service.createLibrariesForDocumentFolders( records );
+
     }
 
     public void finish( Database.BatchableContext context ) {
 
+        System.debug( 'Doc2File_CreateLibrariesBatchable.finish: ' + context );
+
+        // todo send progress update email to user that libraries created, now starting document conversion job
+
+        Database.executeBatch( new Doc2File_ConvertDocsToFilesBatchable() );
+
     }
-
-        /*
-            // ContentWorkspaceMember.MemberId must be a User ID or Public Group ID,
-            // but the Group IDs derived from Document Folder shares could be roles, role and subordinates, etc.
-            // So to ensure the new library has same membership as the document folder it is based on,
-            // then we must create a public group whose members are the same as the document folder's shares.
-            // Then we can add this new public group as the new library's membership.
-
-            // These are all system objects and their DML can occur in the same transaction.
-            // Creating and adding files to the library must occur in a separate batch job.
-
-            Group g = new Group(
-                Name = 'MyWorkspaceGroup',
-                DeveloperName = 'MyWorkspaceGroup',
-                Type = 'Regular'
-            );
-            insert g;
-
-            GroupMember gm = new GroupMember(
-                GroupId = g.Id,
-                UserOrGroupId = '00GL0000001puw4MAA'
-            );
-            insert gm;
-
-            ContentWorkspace w = new ContentWorkspace(
-                Name = 'MyWorkspace',
-                DeveloperName = 'MyWorkspace',
-                ShouldAddCreatorMembership = true
-            );
-            insert w;
-
-            ContentWorkspaceMember wm = new ContentWorkspaceMember(
-                ContentWorkspaceId = w.Id,
-                ContentWorkspacePermissionId = '05PL00000008SF3MAM',
-                MemberId = g.Id
-            );
-            insert wm;
-         */
 
 }
 /*

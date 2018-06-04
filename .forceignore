@@ -15,3 +15,5 @@ force-app/main/default/roles
 force-app/main/default/settings
 force-app/main/default/territory2Models
 force-app/main/default/territory2Types
+
+**/layouts/ContentVersion*.layout
