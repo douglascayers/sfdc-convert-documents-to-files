@@ -88,6 +88,7 @@ public class Doc2File_DocumentFolderService {
         // Using the group/role name sets populated in the first loop above,
         // now query for the Group records and create maps indexed by their developer names.
         // These maps let us cross-reference the group/role names to their ids.
+        Map<String, Group> publicAccessNamesMap = toMapByDeveloperName( getGroupsByDeveloperName( new Set<String>{ 'AllInternalUsers', 'AllPartnerUsers', 'AllCustomerPortalUsers' } ) );
         Map<String, Group> groupNamesMap = toMapByDeveloperName( getGroupsByDeveloperNameAndType( groupNames, 'Regular' ) );
         Map<String, Group> portalRoleNamesMap = toMapByDeveloperName( getGroupsByDeveloperNameAndType( portalRoleNames, 'Role' ) );
         Map<String, Group> portalRoleAndSubordinatesNamesMap = toMapByDeveloperName( getGroupsByDeveloperNameAndType( portalRoleAndSubordinatesNames, 'RoleAndSubordinates' ) );
@@ -100,6 +101,25 @@ public class Doc2File_DocumentFolderService {
         for ( MetadataService.DocumentFolder folder : folderResult.records ) {
 
             DocumentFolderMembership folderMembership = folderMembershipMap.get( folder.fullName );
+
+            if ( folder.accessType != null ) {
+
+                if ( folder.accessType == 'Public' ) {
+
+                    folderMembership.publicAccessGroupNames = new List<String>( publicAccessNamesMap.keySet() );
+                    folderMembership.publicAccessGroupIds = new List<String>();
+                    for ( String key : publicAccessNamesMap.keySet() ) {
+                        folderMembership.publicAccessGroupIds.add( publicAccessNamesMap.get( key ).Id );
+                    }
+
+                } else if ( folder.accessType == 'PublicInternal' ) {
+
+                    folderMembership.publicAccessGroupNames = new List<String>{ 'AllInternalUsers' };
+                    folderMembership.publicAccessGroupIds = new List<String>{ publicAccessNamesMap.get( 'AllInternalUsers' ).Id };
+
+                }
+
+            }
 
             if ( folder.sharedTo != null ) {
 
@@ -194,6 +214,15 @@ public class Doc2File_DocumentFolderService {
 
     // -----------------------------------------------------
 
+    /**
+     * Advisable to always use the other method that allows filtering by type
+     * unless you are 100% positive that the developer names are unique in the whole object.
+     * Which is the case for the special access groups: AllInternalUsers, AllPartnerUsers, and AllCustomerPortalUsers.
+     */
+    private List<Group> getGroupsByDeveloperName( Set<String> developerNames ) {
+        return [ SELECT Id, DeveloperName FROM Group WHERE DeveloperName IN :developerNames ];
+    }
+
     private List<Group> getGroupsByDeveloperNameAndType( Set<String> developerNames, String type ) {
         return [ SELECT Id, DeveloperName FROM Group WHERE DeveloperName IN :developerNames AND Type = :type ];
     }
@@ -210,6 +239,10 @@ public class Doc2File_DocumentFolderService {
         public String folderDeveloperName { get; set; }
         public String accessType { get; set; } // Public, PublicInternal, Shared, Hidden
         public String publicFolderAccess { get; set; } // ReadOnly, ReadWrite
+
+        // Groups when accessType is Public or PublicInternal
+        public List<String> publicAccessGroupNames { get; set; }
+        public List<String> publicAccessGroupIds { get; set; }
 
         // Group developer names for each sharedTo type
         public List<String> sharedToPublicGroupNames { get; set; }
@@ -230,6 +263,10 @@ public class Doc2File_DocumentFolderService {
         public List<ID> getAllGroupIds() {
 
             List<ID> groupIds = new List<ID>();
+
+            if ( publicAccessGroupIds != null ) {
+                groupIds.addAll( publicAccessGroupIds );
+            }
 
             if ( sharedToPublicGroupIds != null ) {
                 groupIds.addAll( sharedToPublicGroupIds );

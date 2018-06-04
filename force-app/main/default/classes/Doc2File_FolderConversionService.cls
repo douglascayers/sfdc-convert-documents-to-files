@@ -82,6 +82,7 @@ public class Doc2File_FolderConversionService {
             String libraryDeveloperName = buildLibraryDeveloperName( folder2library.Folder_Developer_Name__c );
 
             // TODO query and re-use existing groups with same developer name
+            // TODO handle field max length
             Group grp = new Group(
                 Name = 'Library: ' + folder2library.Folder_Name__c,
                 DeveloperName = libraryDeveloperName,
@@ -90,6 +91,7 @@ public class Doc2File_FolderConversionService {
             groupNamesMap.put( grp.DeveloperName, grp );
 
             // TODO query and re-use existing libraries with same developer name
+            // TODO handle field max length
             ContentWorkspace library = new ContentWorkspace(
                 Name = folder2library.Folder_Name__c,
                 DeveloperName = libraryDeveloperName,
@@ -154,28 +156,75 @@ public class Doc2File_FolderConversionService {
             libraryNames.add( buildLibraryDeveloperName( f.DeveloperName ) );
         }
 
-        Map<String, ContentWorkspace> libraryNamesMap = Doc2File_SObjectUtils.toMapByKeyField(
-            ContentWorkspace.DeveloperName,
-            [ SELECT Id, Name, DeveloperName FROM ContentWorkspace WHERE DeveloperName IN :libraryNames ]
-        );
+        Map<ID, ContentWorkspace> librariesMap = new Map<ID, ContentWorkspace>([ SELECT Id, Name, DeveloperName FROM ContentWorkspace WHERE DeveloperName IN :libraryNames ]);
+        Map<String, ContentWorkspace> libraryNamesMap = Doc2File_SObjectUtils.toMapByKeyField( ContentWorkspace.DeveloperName, librariesMap.values() );
 
-        // todo avoid creating duplicate files for same library/folder
+        Map<ID, ID> alreadyConvertedDocumentIdsMap = getAlreadyConvertedDocumentIdsMap( documentIds, librariesMap.keySet() );
+
+        // todo add error handling and logging like in ConvertAttachmentsToFilesService.cls
+        List<ContentVersion> newFileVersions = new List<ContentVersion>();
 
         for ( Document doc : documents ) {
+
+            if ( alreadyConvertedDocumentIdsMap.containsKey( doc.Id ) ) {
+                System.debug( 'Document has already been converted, skipping... ' + doc );
+                continue;
+            }
 
             Folder f = foldersMap.get( doc.FolderId );
             String libraryName = buildLibraryDeveloperName( f.DeveloperName );
             ContentWorkspace library = libraryNamesMap.get( libraryName );
 
+            if ( doc.Type == 'URL' ) {
+
+                newFileVersions.add( new ContentVersion(
+                    // data fields
+                    ContentUrl = doc.Url,
+                    Title = doc.Name,
+                    Description = doc.Description,
+                    FirstPublishLocationId = library.Id,
+                    TagCsv = doc.Keywords,
+                    // audit fields
+                    OwnerId = doc.AuthorId, // system requirement, owner and creator must be the same
+                    CreatedById = doc.AuthorId,
+                    CreatedDate = doc.CreatedDate,
+                    LastModifiedById = doc.LastModifiedById,
+                    LastModifiedDate = doc.LastModifiedDate,
+                    // custom fields for history tracking and conversion purposes
+                    Original_Record_ID__c = doc.Id,
+                    Original_Record_Parent_ID__c = f.Id
+                ));
+
+            } else {
+
+                newFileVersions.add( new ContentVersion(
+                    // data fields
+                    VersionData = doc.Body,
+                    PathOnClient = '/' + doc.DeveloperName + '.' + doc.Type,
+                    Title = doc.Name,
+                    Description = doc.Description,
+                    FirstPublishLocationId = library.Id,
+                    TagCsv = doc.Keywords,
+                    // audit fields
+                    OwnerId = doc.AuthorId, // system requirement, owner and creator must be the same
+                    CreatedById = doc.AuthorId,
+                    CreatedDate = doc.CreatedDate,
+                    LastModifiedById = doc.LastModifiedById,
+                    LastModifiedDate = doc.LastModifiedDate,
+                    // custom fields for history tracking and conversion purposes
+                    Original_Record_ID__c = doc.Id,
+                    Original_Record_Parent_ID__c = f.Id
+                ));
+
+            }
+
+            // todo handle if document belonged to library that was accessible to all users
+            // did that include portal users??
+            // how can library be shared to all users??
+
         }
 
-        // create ContentVersion per Document
-        //      set FirstPublishLocationId as the library
-        //      otherwise create ContentDocumentLink
-
-        // Document.keywords => ContentVersion.tagCsv
-
-        // if Document.Type = 'URL' then set ContentVersion.ContentURL, not ContentVersion.VersionData
+        insert newFileVersions;
 
     }
 
@@ -192,22 +241,22 @@ public class Doc2File_FolderConversionService {
 
         for ( List<ContentDocumentLink> links : [
             SELECT
-                contentDocument.LatestPublishedVersionId,
-                contentDocument.LatestPublishedVersion.original_record_id__c
+                ContentDocument.LatestPublishedVersionId,
+                ContentDocument.LatestPublishedVersion.Original_Record_ID__c
             FROM
                 ContentDocumentLink
             WHERE
-                linkedEntityId IN :libraryIds
+                LinkedEntityId IN :libraryIds
                 AND
-                contentDocument.LatestPublishedVersion.original_record_id__c IN :documentIds
+                ContentDocument.LatestPublishedVersion.Original_Record_ID__c IN :documentIds
         ]) {
 
             for ( ContentDocumentLink link : links ) {
 
-                if ( link.contentDocument != null && link.contentDocument.latestPublishedVersion != null ) {
+                if ( link.ContentDocument != null && link.ContentDocument.LatestPublishedVersion != null ) {
 
-                    if ( documentIds.contains( link.contentDocument.latestPublishedVersion.original_record_id__c ) ) {
-                        convertedDocumentIdsMap.put( link.contentDocument.latestPublishedVersion.original_record_id__c, link.contentDocument.latestPublishedVersionId );
+                    if ( documentIds.contains( link.ContentDocument.LatestPublishedVersion.Original_Record_ID__c ) ) {
+                        convertedDocumentIdsMap.put( link.ContentDocument.LatestPublishedVersion.Original_Record_ID__c, link.ContentDocument.LatestPublishedVersionId );
                     }
 
                 }
