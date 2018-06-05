@@ -44,16 +44,16 @@ Documents whose file size is 0 bytes are not converted, unless their type is URL
 Documentation and Discussion
 --------------------------
 
-* Read the [wiki page](https://github.com/douglascayers/sfdx-convert-documents-to-files/wiki) for further documentation on Convert Documents to Files app.
-* Read the [FAQ page](https://github.com/douglascayers/sfdx-convert-documents-to-files/wiki/Frequently-Asked-Questions) to help troubleshoot technical issues.
-* Raise well defined issues and ideas via the [Issues feature](https://github.com/douglascayers/sfdx-convert-documents-to-files/issues).
+* Read the [wiki page](https://github.com/douglascayers/sfdc-convert-documents-to-files/wiki) for further documentation on Convert Documents to Files app.
+* Read the [FAQ page](https://github.com/douglascayers/sfdc-convert-documents-to-files/wiki/Frequently-Asked-Questions) to help troubleshoot technical issues.
+* Raise well defined issues and ideas via the [Issues feature](https://github.com/douglascayers/sfdc-convert-documents-to-files/issues).
 
 
 Pre-Requisites
 --------------
 1. Enable [Create Audit Fields](https://help.salesforce.com/articleView?id=000213290&type=1&language=en_US) so Document create/update/owner fields can be preserved on the new files.
 2. As the admin performing the conversion, your user record needs **Salesforce CRM Content User** enabled. 
-3. Read the [instructions in the wiki](https://github.com/douglascayers/sfdx-convert-documents-to-files/wiki/Pre-Requisites-Instructions) for screen shots and step-by-steps.
+3. Read the [instructions in the wiki](https://github.com/douglascayers/sfdc-convert-documents-to-files/wiki/Pre-Requisites-Instructions) for screen shots and step-by-steps.
 
 
 Packaged Release History

@@ -1,7 +1,7 @@
 /**
  * Author: Doug Ayers
  * Website: https://douglascayers.com
- * GitHub: https://github.com/douglascayers/sfdx-convert-documents-to-files
+ * GitHub: https://github.com/douglascayers/sfdc-convert-documents-to-files
  * License: BSD 3-Clause License
  */
 public class Doc2File_DocumentFolderService {
