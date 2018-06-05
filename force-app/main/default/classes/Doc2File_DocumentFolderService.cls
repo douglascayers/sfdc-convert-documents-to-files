@@ -6,10 +6,10 @@
  */
 public class Doc2File_DocumentFolderService {
 
-    private String namedCredentialName { get; set; }
+    private String namedCredential { get; set; }
 
-    public Doc2File_DocumentFolderService( String namedCredentialName ) {
-        this.namedCredentialName = namedCredentialName;
+    public Doc2File_DocumentFolderService( String namedCredential ) {
+        this.namedCredential = namedCredential;
     }
 
     public List<DocumentFolderMembership> getDocumentFolderMembership( Set<String> folderDeveloperNames ) {
@@ -196,7 +196,7 @@ public class Doc2File_DocumentFolderService {
 
         // Step 2. Ensure oauth token is refreshed
         HttpRequest req = new HttpRequest();
-        req.setEndpoint( 'callout:ApexMDAPI/services/data/v' + apiVersion );
+        req.setEndpoint( String.format( 'callout:{0}/services/data/v{1}', new String[] { this.namedCredential, apiVersion } ) );
         req.setMethod( 'GET' );
         System.debug( req );
         HttpResponse res = new Http().send( req );
@@ -204,7 +204,7 @@ public class Doc2File_DocumentFolderService {
         System.debug( res.getBody() );
 
         // Step 3. Create metadata service
-        service.endpoint_x = 'callout:ApexMDAPI/services/' + service.endpoint_x.substringAfter( '/services/' );
+        service.endpoint_x = String.format( 'callout:{0}/services/{1}', new String[] { this.namedCredential, service.endpoint_x.substringAfter( '/services/' ) } );
         service.SessionHeader = new MetadataService.SessionHeader_element();
         //service.SessionHeader.sessionId = UserInfo.getSessionId();
         service.SessionHeader.sessionId = '{!$Credential.OAuthToken}';
