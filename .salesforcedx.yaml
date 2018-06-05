@@ -1,7 +1,0 @@
-scratch-org-def: config/project-scratch-def.json
-assign-permset: true
-permset-name: Convert_Documents_to_Files
-run-apex-tests: true
-delete-scratch-org: false
-show-scratch-org-url: true
-open-path: /one/one.app#/sObject/Convert_Document_Folder_to_Library__c/list
