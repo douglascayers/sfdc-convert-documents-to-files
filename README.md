@@ -4,23 +4,25 @@ Convert Documents to Salesforce Files
 Overview
 --------
 
-coming soon...
+Coming soon!
+
+In the meantime, check out my other conversion to files projects:
+  * [Convert Attachments to Files](https://github.com/douglascayers/sfdc-convert-attachments-to-chatter-files)
+  * [Convert Google Docs to Files](https://douglascayers.com/2017/10/19/convert-googledoc-records-to-salesforce-files/)
+  * [Convert Notes to Enhanced Notes](https://github.com/douglascayers/sfdc-convert-notes-to-chatter-notes)
+
+--- 
+
+
+Notes to myself during development
+----------------------------------
 
 things to put in the wiki...
 
 Salesforce does not (yet?) provide an automated way to [migrate Documents to Files](https://help.salesforce.com/articleView?id=docs_documents_to_files.htm&type=5).
 The purpose of this open source project is to provide the community an option for automating the conversion.
 
----
-
-My other conversion apps:
-  * Convert Attachments to Files
-  * Convert Google Docs to Files
-  * Convert Notes to Enhanced Notes
-
---- 
-
-be aware of content limits:
+Be aware of content limits:
 * https://help.salesforce.com/articleView?id=content_file_size_limits.htm&type=5
 * Max 2,000 libraries (take number of current libraries plus document folders must be <= 2,000)
 * Max 200,000 files can be created per 24/hour (less in dev orgs and sandboxes)
@@ -28,8 +30,7 @@ be aware of content limits:
     * if you blow through the 24/hour limit, you may have to contact Salesforce Support to increase it or users won't be able create/upload files for a while
 * this tool does not delete the original documents and folders because to do so requires to delete and purge the documents from your org's recycle bin. Making data irrecoverable is not the business I want to be in.
     
-
-post-conversion, for any documents that were marked as externally available, then need to [enable public link sharing](https://help.salesforce.com/articleView?id=collab_files_sharing_via_link.htm&type=5) on the converted files.
+Post-conversion, for any documents that were marked as externally available, then need to [enable public link sharing](https://help.salesforce.com/articleView?id=collab_files_sharing_via_link.htm&type=5) on the converted files.
 
 Since Documents are not supported in Lightning Experience, you will want to initiate the conversion process from Classic.
 [How to Switch from Lightning Experience to Classic](https://help.salesforce.com/articleView?id=000230642&type=1)
@@ -37,6 +38,8 @@ If you cannot switch to Classic, make sure this feature has not been hidden from
 [Hide Option to Switch to Salesforce Classic](https://releasenotes.docs.salesforce.com/en-us/summer17/release-notes/rn_general_lex_hide_switcher.htm)
 
 Documents whose file size is 0 bytes are not converted, unless their type is URL (aka, bookmarks).
+
+---
 
 Documentation and Discussion
 --------------------------
@@ -50,9 +53,7 @@ Pre-Requisites
 --------------
 1. Enable [Create Audit Fields](https://help.salesforce.com/articleView?id=000213290&type=1&language=en_US) so Document create/update/owner fields can be preserved on the new files.
 2. As the admin performing the conversion, your user record needs **Salesforce CRM Content User** enabled. 
-3. You will need to configure a **Named Credential** because the app processes records in background jobs and will need to securely invoke the Salesforce REST API via OAuth when you are not around. 
-
-Please see the [instructions in the wiki](https://github.com/douglascayers/sfdx-convert-documents-to-files/wiki/Pre-Requisites-Instructions) for screen shots and step-by-steps.
+3. Read the [instructions in the wiki](https://github.com/douglascayers/sfdx-convert-documents-to-files/wiki/Pre-Requisites-Instructions) for screen shots and step-by-steps.
 
 
 Packaged Release History
@@ -61,14 +62,13 @@ Packaged Release History
 Support
 -------
 
-Mass Action Scheduler is an open source project. It's an independent project with its ongoing development happening in the evenings and weekends.
+Documents to Files Converter is an open source project. It's an independent project with its ongoing development happening in the evenings and weekends.
 Maintaining and developing new features takes a considerable amount of time. If your business has found value in my projects, please consider [showing
 your support](https://douglascayers.com/thanks-for-your-support/) by contributing to my [virtual tip jar on PayPal](https://www.paypal.me/douglascayers/). Thank you! ❤️
 
 Release 1.0 (current)
 -----------
-* Install Package ([Production]()) ([Sandbox]())
-* Initial managed package offering
+* In Development
 
 ---
 
