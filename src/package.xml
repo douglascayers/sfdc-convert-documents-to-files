@@ -18,6 +18,10 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>Doc2File_SetupAuthWizardPage</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
         <members>Convert_Documents_to_Files</members>
         <members>Convert_Documents_to_Files_Lightning</members>
         <name>CustomApplication</name>
@@ -51,6 +55,12 @@
     <types>
         <members>Convert_Documents_to_Files</members>
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>SalesforceSecurityLogo</members>
+        <members>jquery_3_3_1</members>
+        <members>jsforce_1_8_4</members>
+        <name>StaticResource</name>
     </types>
     <version>42.0</version>
 </Package>
