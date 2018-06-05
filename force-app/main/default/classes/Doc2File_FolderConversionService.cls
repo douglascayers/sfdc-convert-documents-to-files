@@ -116,9 +116,6 @@ public class Doc2File_FolderConversionService {
             ID libraryGroupId = groupNamesMap.get( libraryDeveloperName ).Id;
             ID libraryId = libraryNamesMap.get( libraryDeveloperName ).Id;
 
-            folder2library.Library_Public_Group_ID__c = libraryGroupId;
-            folder2library.Library_ID__c = libraryId;
-
             if ( String.isNotBlank( folder2library.Group_IDs__c ) ) {
                 for ( String groupId : folder2library.Group_IDs__c.split( ',' ) ) {
                     groupMembers.add( new GroupMember(

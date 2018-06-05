@@ -36,7 +36,8 @@ public class Doc2File_ConvertDocsToFilesBatchable implements Database.Batchable<
                 OR
                 BodyLength > 0
             ORDER BY
-                FolderId
+                FolderId,
+                Id
         ];
     }
 

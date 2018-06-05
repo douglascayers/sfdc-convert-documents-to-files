@@ -3,9 +3,7 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Folder_ID__c</columns>
-    <columns>Library_ID__c</columns>
     <columns>Library_Permission_ID__c</columns>
-    <columns>Library_Public_Group_ID__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

@@ -8,6 +8,27 @@ coming soon...
 
 things to put in the wiki...
 
+Salesforce does not (yet?) provide an automated way to [migrate Documents to Files](https://help.salesforce.com/articleView?id=docs_documents_to_files.htm&type=5).
+The purpose of this open source project is to provide the community an option for automating the conversion.
+
+---
+
+My other conversion apps:
+  * Convert Attachments to Files
+  * Convert Google Docs to Files
+  * Convert Notes to Enhanced Notes
+
+--- 
+
+be aware of content limits:
+* https://help.salesforce.com/articleView?id=content_file_size_limits.htm&type=5
+* Max 2,000 libraries (take number of current libraries plus document folders must be <= 2,000)
+* Max 200,000 files can be created per 24/hour (less in dev orgs and sandboxes)
+    * plan your migration accordingly as salesforce gives no programmatic way to know how close to the limit you are :(
+    * if you blow through the 24/hour limit, you may have to contact Salesforce Support to increase it or users won't be able create/upload files for a while
+* this tool does not delete the original documents and folders because to do so requires to delete and purge the documents from your org's recycle bin. Making data irrecoverable is not the business I want to be in.
+    
+
 post-conversion, for any documents that were marked as externally available, then need to [enable public link sharing](https://help.salesforce.com/articleView?id=collab_files_sharing_via_link.htm&type=5) on the converted files.
 
 Since Documents are not supported in Lightning Experience, you will want to initiate the conversion process from Classic.

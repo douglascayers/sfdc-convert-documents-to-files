@@ -26,15 +26,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Library_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Library_Permission_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Library_Public_Group_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -83,7 +75,6 @@
     </layoutSections>
     <miniLayout>
         <fields>Folder_ID__c</fields>
-        <fields>Library_ID__c</fields>
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>

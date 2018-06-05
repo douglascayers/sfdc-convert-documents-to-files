@@ -63,23 +63,15 @@
     <pluralLabel>Convert Document Folders to Libraries</pluralLabel>
     <searchLayouts>
         <customTabListAdditionalFields>Folder_ID__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Library_ID__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Library_Permission_ID__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Library_Public_Group_ID__c</customTabListAdditionalFields>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <lookupDialogsAdditionalFields>Folder_ID__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Library_ID__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Library_Permission_ID__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Library_Public_Group_ID__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Folder_ID__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Library_ID__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Library_Permission_ID__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Library_Public_Group_ID__c</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>Folder_ID__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Library_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Library_Permission_ID__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Library_Public_Group_ID__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

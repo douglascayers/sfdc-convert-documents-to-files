@@ -17,13 +17,12 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
                 Folder_Name__c,
                 Folder_Developer_Name__c,
                 Group_IDs__c,
-                Library_ID__c,
-                Library_Permission_ID__c,
-                Library_Public_Group_ID__c
+                Library_Permission_ID__c
             FROM
                 Convert_Document_Folder_to_Library__c
-            WHERE
-                Library_ID__c = null
+            ORDER BY
+                Folder_Name__c,
+                Folder_ID__c
         ];
     }
 
