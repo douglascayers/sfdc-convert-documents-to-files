@@ -77,9 +77,9 @@ Installing the Source Code (Developers)
 
 You may install the unmanaged code from GitHub and make any desired adjustments.
 You are responsible for ensuring unit tests meet your org's validation rules and other requirements.
-You can conveniently deploy the source to a new scratch org using [Andy Fawcett](https://github.com/wadewegner/deploy-to-sfdx)'s deploy tool:
+You can conveniently deploy the source to a new scratch org using [Andy Fawcett](https://andyinthecloud.com/category/githubsfdeploy/)'s deploy tool:
 
-[![Deploy from GitHub](https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png)](https://andyinthecloud.com/category/githubsfdeploy/)
+[![Deploy from GitHub](https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png)](https://githubsfdeploy.herokuapp.com?owner=douglascayers&repo=convert-documents-to-files)
 
 
 Credits
