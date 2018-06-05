@@ -17,6 +17,9 @@ In the meantime, check out my other conversion to files projects:
 Notes to myself during development
 ----------------------------------
 
+The conversion process starts in [Doc2File_PrepareFoldersBatchable.cls](https://github.com/douglascayers/sfdc-convert-documents-to-files/blob/master/src/classes/Doc2File_PrepareFoldersBatchable.cls).
+From there, just follow the code ;)
+
 things to put in the wiki...
 
 Salesforce does not (yet?) provide an automated way to [migrate Documents to Files](https://help.salesforce.com/articleView?id=docs_documents_to_files.htm&type=5).
