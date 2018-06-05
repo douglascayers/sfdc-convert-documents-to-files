@@ -75,12 +75,11 @@ Release 1.0 (current)
 Installing the Source Code (Developers)
 ---------------------------------------
 
-This repository is organized using [Salesforce DX](https://trailhead.salesforce.com/en/trails/sfdx_get_started).
 You may install the unmanaged code from GitHub and make any desired adjustments.
 You are responsible for ensuring unit tests meet your org's validation rules and other requirements.
-You can conveniently deploy the source to a new scratch org using [Wade Wegner](https://github.com/wadewegner/deploy-to-sfdx)'s deploy tool:
+You can conveniently deploy the source to a new scratch org using [Andy Fawcett](https://github.com/wadewegner/deploy-to-sfdx)'s deploy tool:
 
-[![Deploy from GitHub](https://deploy-to-sfdx.com/dist/assets/images/DeployToSFDX.svg)](https://deploy-to-sfdx.com?template=https://github.com/douglascayers/sfdx-convert-documents-to-files)
+[![Deploy from GitHub](https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png)](https://andyinthecloud.com/category/githubsfdeploy/)
 
 
 Credits
