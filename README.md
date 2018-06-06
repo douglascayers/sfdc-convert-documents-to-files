@@ -42,6 +42,12 @@ If you cannot switch to Classic, make sure this feature has not been hidden from
 
 Documents whose file size is 0 bytes are not converted, unless their type is URL (aka, bookmarks).
 
+The batch jobs send emails to notify the admin on conversion progress.
+If you use a free email service like yahoo, gmail, hotmail, etc. then your email provider
+may display a warning like "This may be a spoofed message" or "We couldn't verify the actual source".
+This is documented at https://help.salesforce.com/articleView?id=Salesforce-Outbound-Emails-Impacted-by-Google-DMARC-Policy-Adoption&language=en_US&type=1.
+If you use a work email address, then you might not notice anything. 
+
 ---
 
 Documentation and Discussion
