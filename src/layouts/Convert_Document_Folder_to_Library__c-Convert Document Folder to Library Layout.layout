@@ -26,6 +26,14 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Library_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Library_Public_Group_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Library_Permission_ID__c</field>
             </layoutItems>
         </layoutColumns>
@@ -74,7 +82,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <miniLayout>
+        <fields>Folder_Name__c</fields>
         <fields>Folder_ID__c</fields>
+        <fields>Library_ID__c</fields>
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
@@ -129,7 +139,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hL0000000gWGR</masterLabel>
+        <masterLabel>00hf200000OZAn8</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

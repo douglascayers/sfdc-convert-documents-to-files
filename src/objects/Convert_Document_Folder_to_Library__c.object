@@ -106,6 +106,19 @@
         <visibleLines>5</visibleLines>
     </fields>
     <fields>
+        <fullName>Library_ID__c</fullName>
+        <description>The new Content Library created to replace the Document Folder. Populated by batch apex jobs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The new Content Library created to replace the Document Folder.</inlineHelpText>
+        <label>Library ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Library_Permission_ID__c</fullName>
         <description>The content library permission to grant to members of the new library. In Setup menu in Classic UI, find &quot;Content Permissions&quot;. Learn more about content library management at https://help.salesforce.com/articleView?id=collab_files_library_folders.htm</description>
         <externalId>false</externalId>
@@ -118,10 +131,24 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>Library_Public_Group_ID__c</fullName>
+        <description>Content Libraries can be shared to users and public groups, but Document Folders can be shared to users, public groups, and roles. To bridge the gap, then a public group per library is created and the library shared with the new group. All members that the Document Folder was shared with are added as members of the new library public group. Populated by batch apex job.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Public Group that represents who the original Document Folder was shared to. This defines the new Library&apos;s membership.</inlineHelpText>
+        <label>Library Public Group ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
     <label>Convert Document Folder to Library</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
+        <columns>Folder_Name__c</columns>
         <columns>Folder_ID__c</columns>
         <columns>Library_Permission_ID__c</columns>
         <filterScope>Everything</filterScope>
@@ -135,16 +162,21 @@
     </nameField>
     <pluralLabel>Convert Document Folders to Libraries</pluralLabel>
     <searchLayouts>
+        <customTabListAdditionalFields>Folder_Name__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Folder_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Library_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Library_Public_Group_ID__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Library_Permission_ID__c</customTabListAdditionalFields>
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <lookupDialogsAdditionalFields>Folder_ID__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Library_Permission_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Folder_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Library_ID__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Folder_ID__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Library_Permission_ID__c</lookupPhoneDialogsAdditionalFields>
+        <searchResultsAdditionalFields>Folder_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Folder_ID__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Library_Permission_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Library_ID__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
