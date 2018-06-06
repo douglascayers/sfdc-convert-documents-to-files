@@ -3,6 +3,8 @@
     <defaultLandingTab>Convert_Document_Folder_to_Library__c</defaultLandingTab>
     <label>Convert Documents to Files</label>
     <tabs>Convert_Document_Folder_to_Library__c</tabs>
+    <tabs>Doc2File_Auth_Setup</tabs>
+    <tabs>Doc2File_Log__c</tabs>
     <tabs>standard-Document</tabs>
     <tabs>standard-File</tabs>
 </CustomApplication>
