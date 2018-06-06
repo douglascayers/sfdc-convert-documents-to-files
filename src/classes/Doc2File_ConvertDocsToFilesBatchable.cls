@@ -45,9 +45,23 @@ public class Doc2File_ConvertDocsToFilesBatchable implements Database.Batchable<
 
         System.debug( 'Doc2File_ConvertDocsToFilesBatchable.execute: ' + context );
 
-        Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+        SavePoint sp = Database.setSavepoint();
 
-        service.convertDocumentsToFiles( documents );
+        try {
+
+            Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+
+            service.convertDocumentsToFiles( documents );
+
+        } catch ( Exception e ) {
+
+            Database.rollback( sp );
+
+            System.debug( LoggingLevel.ERROR, e );
+
+            // todo create doc2file_log__c
+
+        }
 
     }
 

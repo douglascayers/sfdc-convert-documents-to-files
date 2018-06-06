@@ -119,9 +119,23 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
 
         System.debug( 'Doc2File_PrepareFoldersBatchable.execute: ' + context );
 
-        Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+        SavePoint sp = Database.setSavepoint();
 
-        service.prepareDocumentFoldersForConversion( folders, this.options.namedCredential, this.options.readOnlyLibraryPermissionId, this.options.readWriteLibraryPermissionId );
+        try {
+
+            Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+
+            service.prepareDocumentFoldersForConversion( folders, this.options.namedCredential, this.options.readOnlyLibraryPermissionId, this.options.readWriteLibraryPermissionId );
+
+        } catch ( Exception e ) {
+
+            Database.rollback( sp );
+
+            System.debug( LoggingLevel.ERROR, e );
+
+            // todo create doc2file_log__c
+
+        }
 
     }
 
@@ -130,18 +144,6 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
         System.debug( 'Doc2File_PrepareFoldersBatchable.finish: ' + context );
 
         // todo send progress update email that document folders and membership analysis done, starting job to create libraries
-        AsyncApexJob job = [
-            SELECT
-                Id,
-                ExtendedStatus,
-                Status
-            FROM
-                AsyncApexJob
-            WHERE
-                Id = :context.getJobId()
-            LIMIT 1
-        ];
-
 
         Database.executeBatch( new Doc2File_CreateLibrariesBatchable() );
 

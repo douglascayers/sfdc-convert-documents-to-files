@@ -63,6 +63,8 @@ public class Doc2File_FolderConversionService {
 
     }
 
+    // -----------------------------------------------------
+
     public void createLibrariesForDocumentFolders( List<Convert_Document_Folder_to_Library__c> folders2libraries ) {
 
         // ContentWorkspaceMember.MemberId must be a User ID or Public Group ID,
@@ -73,6 +75,10 @@ public class Doc2File_FolderConversionService {
 
         // These are all system objects and their DML can occur in the same transaction.
         // Creating and adding files to the library must occur in a separate batch job.
+
+        // Updating the Convert_Document_Folder_to_Library__c records with the generated library id and public group id
+        // must also occur in a separate transaction, which is done via platform events.
+        List<Convert_Document_Folder_to_Library__c> folders2librariesToUpdate = new List<Convert_Document_Folder_to_Library__c>();
 
         Map<String, Group> groupNamesMap = new Map<String, Group>();
         Map<String, ContentWorkspace> libraryNamesMap = new Map<String, contentWorkspace>();
@@ -131,12 +137,28 @@ public class Doc2File_FolderConversionService {
                 MemberId = libraryGroupId
             ));
 
+            // capture the new library and public group id created
+            // for this document folder for tracking purposes
+            folders2librariesToUpdate.add( new Convert_Document_Folder_to_Library__c(
+                Id = folder2library.Id,
+                Library_ID__c = libraryId,
+                Library_Public_Group_ID__c = libraryGroupId
+            ));
+
         }
 
         insert groupMembers;
         insert libraryMembers;
 
+        // due to mixed-dml of system and non-system objects,
+        // the non-system objects are being updated asynchronously
+        EventBus.publish( new Doc2File_Event__e(
+            Payload__c = JSON.serialize( folders2librariesToUpdate )
+        ));
+
     }
+
+    // -----------------------------------------------------
 
     public void convertDocumentsToFiles( List<Document> documents ) {
 
@@ -163,6 +185,7 @@ public class Doc2File_FolderConversionService {
 
         for ( Document doc : documents ) {
 
+            // todo log a skipped conversion result like attachment converter project
             if ( alreadyConvertedDocumentIdsMap.containsKey( doc.Id ) ) {
                 System.debug( 'Document has already been converted, skipping... ' + doc );
                 continue;
@@ -214,10 +237,6 @@ public class Doc2File_FolderConversionService {
                 ));
 
             }
-
-            // todo handle if document belonged to library that was accessible to all users
-            // did that include portal users??
-            // how can library be shared to all users??
 
         }
 

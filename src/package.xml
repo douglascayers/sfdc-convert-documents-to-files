@@ -44,7 +44,6 @@
         <members>Convert_Document_Folder_to_Library__c.Library_ID__c</members>
         <members>Convert_Document_Folder_to_Library__c.Library_Permission_ID__c</members>
         <members>Convert_Document_Folder_to_Library__c.Library_Public_Group_ID__c</members>
-        <members>Doc2File_Event__e.Job_ID__c</members>
         <members>Doc2File_Event__e.Payload__c</members>
         <members>Doc2File_Log__c.Detail__c</members>
         <members>Doc2File_Log__c.Job_ID__c</members>

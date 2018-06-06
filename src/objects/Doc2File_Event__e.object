@@ -4,19 +4,6 @@
     <description>Due to mixed-DML limitations, this event represents that a new Content Library and/or Public Group have been created to support the conversion from Documents to Files. Since the conversion occurs in batch Apex execute method, the traditional approach of performing the DML operation in async Apex won&apos;t work because the code is already running async Apex. Platform Events provide a mechanism to perform async DML.</description>
     <eventType>StandardVolume</eventType>
     <fields>
-        <fullName>Job_ID__c</fullName>
-        <description>The Batchable or Queueable Job ID that published this event.</description>
-        <externalId>false</externalId>
-        <isFilteringDisabled>false</isFilteringDisabled>
-        <isNameField>false</isNameField>
-        <isSortingDisabled>false</isSortingDisabled>
-        <label>Job ID</label>
-        <length>255</length>
-        <required>false</required>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Payload__c</fullName>
         <description>Generally this is JSON serialized data.</description>
         <externalId>false</externalId>

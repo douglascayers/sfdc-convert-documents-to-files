@@ -177,6 +177,8 @@ public class Doc2File_DocumentFolderService {
         return (MetadataService.ReadDocumentFolderResult) service.readMetadata( 'DocumentFolder', folderDeveloperNames );
     }
 
+    // -----------------------------------------------------
+
     private MetadataService.MetadataPort createService() {
 
         // Because we will make Metadata API calls in batch context,

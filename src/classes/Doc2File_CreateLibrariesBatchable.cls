@@ -17,9 +17,13 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
                 Folder_Name__c,
                 Folder_Developer_Name__c,
                 Group_IDs__c,
+                Library_ID__c,
+                Library_Public_Group_ID__c,
                 Library_Permission_ID__c
             FROM
                 Convert_Document_Folder_to_Library__c
+            WHERE
+                Library_ID__c = null
             ORDER BY
                 Folder_Name__c,
                 Folder_ID__c
@@ -30,9 +34,23 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
 
         System.debug( 'Doc2File_CreateLibrariesBatchable.execute: ' + context );
 
-        Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+        SavePoint sp = Database.setSavepoint();
 
-        service.createLibrariesForDocumentFolders( records );
+        try {
+
+            Doc2File_FolderConversionService service = new Doc2File_FolderConversionService();
+
+            service.createLibrariesForDocumentFolders( records );
+
+        } catch ( Exception e ) {
+
+            Database.rollback( sp );
+
+            System.debug( LoggingLevel.ERROR, e );
+
+            // todo create doc2file_log__c
+
+        }
 
     }
 
