@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Represents results from converting Document Folders to Content Libraries. Records are created and updated by Apex batch jobs.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Detail__c</fullName>
+        <externalId>false</externalId>
+        <label>Detail</label>
+        <length>40000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Job_ID__c</fullName>
+        <description>The Batchable or Queueable Job ID when this error occurred.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Batchable or Queueable Job ID when this error occurred.</inlineHelpText>
+        <label>Job ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Log_Time__c</fullName>
+        <description>In List Views and Reports the standard CreatedDate and LastModifiedDate display only the &quot;date&quot; portion and not the &quot;time&quot;. This formula field is workaround to to view the &quot;date&quot; and &quot;time&quot; together.</description>
+        <externalId>false</externalId>
+        <formula>CreatedDate</formula>
+        <label>Log Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>New_File_ID__c</fullName>
+        <description>If the log message is about a specific conversion issue with a record then this is the new File ID.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the log message is about a specific conversion issue with a record then this is the new File ID.</inlineHelpText>
+        <label>New File ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Old_Document_ID__c</fullName>
+        <description>If the log message is about a specific conversion issue with a record then this is the original Document ID.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If the log message is about a specific conversion issue with a record then this is the original Document ID.</inlineHelpText>
+        <label>Old Document ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Indicates the status of log message, whether a document was successfully converted or perhaps that it was skipped during conversion or that it failed conversion. The API values match conversion result enum value in apex code.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates the status of log message, whether a document was successfully converted or perhaps that it was skipped during conversion or that it failed conversion. The API values match conversion result enum value in apex code.</inlineHelpText>
+        <label>Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>CONVERTED</fullName>
+                    <default>true</default>
+                    <label>Converted</label>
+                </value>
+                <value>
+                    <fullName>SKIPPED</fullName>
+                    <default>false</default>
+                    <label>Skipped</label>
+                </value>
+                <value>
+                    <fullName>ERROR</fullName>
+                    <default>false</default>
+                    <label>Error</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Summary__c</fullName>
+        <externalId>false</externalId>
+        <label>Summary</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Doc2File Log</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>Log-{000000}</displayFormat>
+        <label>Log Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Doc2File Logs</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
