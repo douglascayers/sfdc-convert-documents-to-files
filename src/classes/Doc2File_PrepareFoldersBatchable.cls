@@ -42,6 +42,17 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
         // scope the conversion, leave empty to convert all folders
         public Set<ID> documentFolderIds { get; set; }
 
+        public override String toString() {
+            return (
+                'Options:{' +
+                    'namedCredential=' + this.namedCredential + ', ' +
+                    'readOnlyLibraryPermissionId=' + this.readOnlyLibraryPermissionId + ', ' +
+                    'readWriteLibraryPermissionId=' + this.readWriteLibraryPermissionId + ', ' +
+                    'documentFolderIds=' + this.documentFolderIds +
+                '}'
+            );
+        }
+
     }
 
     private Options options { get; set; }
@@ -53,18 +64,12 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
     public List<Folder> start( Database.BatchableContext context ) {
 
         System.debug( 'Doc2File_PrepareFoldersBatchable.start: ' + context );
-        System.debug( 'namedCredential=' + this.options.namedCredential );
-        System.debug( 'readOnlyLibraryPermissionId=' + this.options.readOnlyLibraryPermissionId );
-        System.debug( 'readWriteLibraryPermissionId=' + this.options.readWriteLibraryPermissionId );
-        System.debug( 'documentFolderIds=' + this.options.documentFolderIds );
+        System.debug( options );
 
-        // todo need option to handle folders that are "hidden from all users"
-        // (a) give admin option to exclude them; folder owners convert manually
-        // (b) give admin option to include them; no library is created but the documents are converted to files private to the document owner
-        //      - side effect, if a user owned documents in multiple hidden document folders, they all become private files to the user without
-        //        any folder organization
-
-        List<String> accessTypes = new List<String>{ 'Shared', 'Public' };
+        // Hidden folders are not included as those are private to individual users
+        // and Salesforce limits of 2,000 libraries won't sustain 1+ libraries per user.
+        // Instead, users can use a visualforce page to convert documents in their hidden
+        // folders to files that will be saved to their private library.
 
         if ( this.options.documentFolderIds == null || this.options.documentFolderIds.isEmpty() ) {
 
@@ -80,7 +85,7 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
                 WHERE
                     Type = 'Document'
                     AND
-                    AccessType IN :accessTypes
+                    AccessType IN ( 'Shared', 'Public' )
                 ORDER BY
                     Name,
                     Id
@@ -98,11 +103,9 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
                 FROM
                     Folder
                 WHERE
-                    Id IN :this.options.documentFolderIds
-                    AND
                     Type = 'Document'
                     AND
-                    AccessType IN :accessTypes
+                    Id IN :this.options.documentFolderIds
                 ORDER BY
                     Name,
                     Id
@@ -127,6 +130,18 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
         System.debug( 'Doc2File_PrepareFoldersBatchable.finish: ' + context );
 
         // todo send progress update email that document folders and membership analysis done, starting job to create libraries
+        AsyncApexJob job = [
+            SELECT
+                Id,
+                ExtendedStatus,
+                Status
+            FROM
+                AsyncApexJob
+            WHERE
+                Id = :context.getJobId()
+            LIMIT 1
+        ];
+
 
         Database.executeBatch( new Doc2File_CreateLibrariesBatchable() );
 
