@@ -1,0 +1,9 @@
+<apex:page id="Doc2File_ConvertHiddenFoldersPage">
+
+        // todo need option to handle folders that are "hidden from all users"
+        // (a) give admin option to exclude them; folder owners convert manually
+        // (b) give admin option to include them; no library is created but the documents are converted to files private to the document owner
+        //      - side effect, if a user owned documents in multiple hidden document folders, they all become private files to the user without
+        //        any folder organization
+
+</apex:page>
