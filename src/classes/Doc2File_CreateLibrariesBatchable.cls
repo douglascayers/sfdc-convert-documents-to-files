@@ -4,13 +4,13 @@
  * GitHub: https://github.com/douglascayers/sfdc-convert-documents-to-files
  * License: BSD 3-Clause License
  */
-public without sharing class Doc2File_CreateLibrariesBatchable implements Database.Batchable<Convert_Document_Folder_to_Library__c> {
+public without sharing class Doc2File_CreateLibrariesBatchable implements Database.Batchable<SObject> {
 
-    public List<Convert_Document_Folder_to_Library__c> start( Database.BatchableContext context ) {
+    public Database.QueryLocator start( Database.BatchableContext context ) {
 
         System.debug( 'Doc2File_CreateLibrariesBatchable.start: ' + context );
 
-        return [
+        return Database.getQueryLocator([
             SELECT
                 Id,
                 Folder_ID__c,
@@ -27,7 +27,7 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
             ORDER BY
                 Folder_Name__c,
                 Folder_ID__c
-        ];
+        ]);
     }
 
     public void execute( Database.BatchableContext context, List<Convert_Document_Folder_to_Library__c> records ) {

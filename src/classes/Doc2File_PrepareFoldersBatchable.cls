@@ -21,7 +21,7 @@
  *      https://trailhead.salesforce.com/modules/lightning-experience-productivity/units/work-with-notes-and-files
  */
 
-public without sharing class Doc2File_PrepareFoldersBatchable implements Database.Batchable<Folder>, Database.Stateful, Database.AllowsCallouts {
+public without sharing class Doc2File_PrepareFoldersBatchable implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
 
     // I got tired of adding new constructor arguments
     // every time I thought of a new option to support
@@ -61,7 +61,7 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
         this.options = options;
     }
 
-    public List<Folder> start( Database.BatchableContext context ) {
+    public Database.QueryLocator start( Database.BatchableContext context ) {
 
         System.debug( 'Doc2File_PrepareFoldersBatchable.start: ' + context );
         System.debug( options );
@@ -73,7 +73,7 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
 
         if ( this.options.documentFolderIds == null || this.options.documentFolderIds.isEmpty() ) {
 
-            return [
+            return Database.getQueryLocator([
                 SELECT
                     Id,
                     Name,
@@ -89,11 +89,11 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
                 ORDER BY
                     Name,
                     Id
-            ];
+            ]);
 
         } else {
 
-            return [
+            return Database.getQueryLocator([
                 SELECT
                     Id,
                     Name,
@@ -109,7 +109,7 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
                 ORDER BY
                     Name,
                     Id
-            ];
+            ]);
 
         }
 
