@@ -152,6 +152,13 @@
     <label>Doc2File Log</label>
     <listViews>
         <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Status__c</columns>
+        <columns>Job_ID__c</columns>
+        <columns>Old_Document_ID__c</columns>
+        <columns>New_File_ID__c</columns>
+        <columns>Summary__c</columns>
+        <columns>Log_Time__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
