@@ -10,13 +10,13 @@ public class Doc2File_EventTriggerHandler {
 
         System.debug( 'Doc2File_EventTriggerHandler.handleAfterInsert' );
 
-        List<Convert_Document_Folder_to_Library__c> folder2libraries = new List<Convert_Document_Folder_to_Library__c>();
+        List<Doc2File_Request__c> folder2libraries = new List<Doc2File_Request__c>();
 
         for ( Doc2File_Event__e evt : events ) {
 
             System.debug( evt );
 
-            folder2libraries.add( (Convert_Document_Folder_to_Library__c) JSON.deserialize( evt.Payload__c, Convert_Document_Folder_to_Library__c.class ) );
+            folder2libraries.add( (Doc2File_Request__c) JSON.deserialize( evt.Payload__c, Doc2File_Request__c.class ) );
 
         }
 

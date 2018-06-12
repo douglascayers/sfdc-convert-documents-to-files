@@ -11,41 +11,6 @@
     <description>Grants access to Convert Documents to Files. This should only be granted to System Administrators.</description>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Folder_Developer_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Folder_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Folder_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Group_IDs__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Library_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Library_Permission_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Convert_Document_Folder_to_Library__c.Library_Public_Group_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Doc2File_Log__c.Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -118,15 +83,6 @@
     <label>Convert Documents to Files</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Convert_Document_Folder_to_Library__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
@@ -152,10 +108,6 @@
         <object>Doc2File_Request__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <tabSettings>
-        <tab>Convert_Document_Folder_to_Library__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
     <tabSettings>
         <tab>Doc2File_Auth_Setup</tab>
         <visibility>Visible</visibility>

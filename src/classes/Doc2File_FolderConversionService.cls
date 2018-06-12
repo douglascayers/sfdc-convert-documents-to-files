@@ -22,19 +22,19 @@ public class Doc2File_FolderConversionService {
 
         // Check that we haven't already converted the folder.
         // To convert a folder again, you must first delete the
-        // matching Convert_Document_Folder_to_Library__c record.
-        for ( Convert_Document_Folder_to_Library__c convertedFolder : [
+        // matching Doc2File_Request__c record.
+        for ( Doc2File_Request__c convertedFolder : [
             SELECT
                 Id,
                 Folder_ID__c
             FROM
-                Convert_Document_Folder_to_Library__c
+                Doc2File_Request__c
             WHERE
                 Folder_ID__c IN :foldersByIdsMap.keySet()
         ]) {
             Folder f = foldersByIdsMap.get( convertedFolder.Folder_ID__c );
             folderDeveloperNamesToConvert.remove( f.DeveloperName );
-            System.debug( LoggingLevel.WARN, 'Document Folder "' + f.DeveloperName + '" has, or is marked to be, converted to a Library. To enqueue folder and its documents to be converted again, delete Convert_Document_Folder_to_Library__c record ' + convertedFolder.Id );
+            System.debug( LoggingLevel.WARN, 'Document Folder "' + f.DeveloperName + '" has, or is marked to be, converted to a Library. To enqueue folder and its documents to be converted again, delete Doc2File_Request__c record ' + convertedFolder.Id );
         }
 
         if ( folderDeveloperNamesToConvert.size() > 0 ) {
@@ -43,11 +43,11 @@ public class Doc2File_FolderConversionService {
 
             List<Doc2File_DocumentFolderService.DocumentFolderMembership> folderMemberships = folderService.getDocumentFolderMembership( folderDeveloperNamesToConvert );
 
-            List<Convert_Document_Folder_to_Library__c> folders2libraries = new List<Convert_Document_Folder_to_Library__c>();
+            List<Doc2File_Request__c> folders2libraries = new List<Doc2File_Request__c>();
 
             for ( Doc2File_DocumentFolderService.DocumentFolderMembership folderMembership : folderMemberships ) {
 
-                folders2libraries.add( new Convert_Document_Folder_to_Library__c(
+                folders2libraries.add( new Doc2File_Request__c(
                     Folder_ID__c = foldersByNamesMap.get( folderMembership.folderDeveloperName ).Id,
                     Folder_Name__c = folderMembership.folderName,
                     Folder_Developer_Name__c = folderMembership.folderDeveloperName,
@@ -65,7 +65,7 @@ public class Doc2File_FolderConversionService {
 
     // -----------------------------------------------------
 
-    public void createLibrariesForDocumentFolders( List<Convert_Document_Folder_to_Library__c> folders2libraries ) {
+    public void createLibrariesForDocumentFolders( List<Doc2File_Request__c> folders2libraries ) {
 
         // ContentWorkspaceMember.MemberId must be a User ID or Public Group ID,
         // but the Group IDs derived from Document Folder shares could be roles, role and subordinates, etc.
@@ -76,14 +76,14 @@ public class Doc2File_FolderConversionService {
         // These are all system objects and their DML can occur in the same transaction.
         // Creating and adding files to the library must occur in a separate batch job.
 
-        // Updating the Convert_Document_Folder_to_Library__c records with the generated library id and public group id
+        // Updating the Doc2File_Request__c records with the generated library id and public group id
         // must also occur in a separate transaction, which is done via platform events.
-        List<Convert_Document_Folder_to_Library__c> folders2librariesToUpdate = new List<Convert_Document_Folder_to_Library__c>();
+        List<Doc2File_Request__c> folders2librariesToUpdate = new List<Doc2File_Request__c>();
 
         Map<String, Group> groupNamesMap = new Map<String, Group>();
         Map<String, ContentWorkspace> libraryNamesMap = new Map<String, contentWorkspace>();
 
-        for ( Convert_Document_Folder_to_Library__c folder2library : folders2libraries ) {
+        for ( Doc2File_Request__c folder2library : folders2libraries ) {
 
             String libraryDeveloperName = buildLibraryDeveloperName( folder2library.Folder_Developer_Name__c );
 
@@ -113,7 +113,7 @@ public class Doc2File_FolderConversionService {
         List<GroupMember> groupMembers = new List<GroupMember>();
         List<ContentWorkspaceMember> libraryMembers = new List<ContentWorkspaceMember>();
 
-        for ( Convert_Document_Folder_to_Library__c folder2library : folders2libraries ) {
+        for ( Doc2File_Request__c folder2library : folders2libraries ) {
 
             // TODO only add members if created a new library
 
@@ -139,7 +139,7 @@ public class Doc2File_FolderConversionService {
 
             // capture the new library and public group id created
             // for this document folder for tracking purposes
-            folders2librariesToUpdate.add( new Convert_Document_Folder_to_Library__c(
+            folders2librariesToUpdate.add( new Doc2File_Request__c(
                 Id = folder2library.Id,
                 Library_ID__c = libraryId,
                 Library_Public_Group_ID__c = libraryGroupId

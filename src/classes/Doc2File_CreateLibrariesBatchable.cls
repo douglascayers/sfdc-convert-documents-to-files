@@ -21,7 +21,7 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
                 Library_Public_Group_ID__c,
                 Library_Permission_ID__c
             FROM
-                Convert_Document_Folder_to_Library__c
+                Doc2File_Request__c
             WHERE
                 Library_ID__c = null
             ORDER BY
@@ -30,7 +30,7 @@ public without sharing class Doc2File_CreateLibrariesBatchable implements Databa
         ]);
     }
 
-    public void execute( Database.BatchableContext context, List<Convert_Document_Folder_to_Library__c> records ) {
+    public void execute( Database.BatchableContext context, List<Doc2File_Request__c> records ) {
 
         System.debug( 'Doc2File_CreateLibrariesBatchable.execute: ' + context );
 
