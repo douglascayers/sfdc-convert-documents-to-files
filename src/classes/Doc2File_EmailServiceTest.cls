@@ -5,7 +5,7 @@
  * License: BSD 3-Clause License
  */
 @IsTest
-private class Doc2File_FolderConversionServiceTest {
+private class Doc2File_EmailServiceTest {
 
     @IsTest
     static void test_something() {
