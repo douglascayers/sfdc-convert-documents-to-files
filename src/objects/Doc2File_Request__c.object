@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Represents metadata, permissions, and cross-references for converting Document Folders to Content Libraries. Records are created and updated by Apex batch jobs.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Folder_Developer_Name__c</fullName>
+        <description>Developer Name of the original Document Folder. By storing this data, we avoid extra code and SOQL queries in the batch jobs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Developer Name of the original Document Folder.</inlineHelpText>
+        <label>Folder Developer Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Folder_ID__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>Document Folder ID to convert to Content Library.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Document Folder ID to convert to Content Library.</inlineHelpText>
+        <label>Folder ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Folder_Name__c</fullName>
+        <description>Name of the original Document Folder. By storing this data, we avoid extra code and SOQL queries in the batch jobs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Name of the original Document Folder.</inlineHelpText>
+        <label>Folder Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Group_IDs__c</fullName>
+        <description>Comma-delimited list of Group IDs derived from the DocumentFolder sharedTo entries from Metadata API. https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_folder.htm</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma-delimited list of Group IDs derived from the DocumentFolder sharedTo entries from Metadata API.</inlineHelpText>
+        <label>Group IDs</label>
+        <length>131072</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Library_ID__c</fullName>
+        <description>The new Content Library created to replace the Document Folder. Populated by batch apex jobs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The new Content Library created to replace the Document Folder.</inlineHelpText>
+        <label>Library ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Library_Permission_ID__c</fullName>
+        <description>The content library permission to grant to members of the new library. In Setup menu in Classic UI, find &quot;Content Permissions&quot;. Learn more about content library management at https://help.salesforce.com/articleView?id=collab_files_library_folders.htm</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The content library permission to grant to members of the new library.</inlineHelpText>
+        <label>Library Permission ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Library_Public_Group_ID__c</fullName>
+        <description>Content Libraries can be shared to users and public groups, but Document Folders can be shared to users, public groups, and roles. To bridge the gap, then a public group per library is created and the library shared with the new group. All members that the Document Folder was shared with are added as members of the new library public group. Populated by batch apex job.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Public Group that represents who the original Document Folder was shared to. This defines the new Library&apos;s membership.</inlineHelpText>
+        <label>Library Public Group ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Doc2File Request</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Folder_Name__c</columns>
+        <columns>Folder_ID__c</columns>
+        <columns>Library_ID__c</columns>
+        <columns>Library_Public_Group_ID__c</columns>
+        <columns>Library_Permission_ID__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>R-{000000}</displayFormat>
+        <label>Request Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Doc2File Requests</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Folder_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Folder_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Library_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Library_Public_Group_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Library_Permission_ID__c</customTabListAdditionalFields>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>Folder_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Folder_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Library_ID__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Folder_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Library_Permission_ID__c</lookupPhoneDialogsAdditionalFields>
+        <searchResultsAdditionalFields>Folder_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Folder_ID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Library_ID__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

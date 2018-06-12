@@ -30,6 +30,10 @@
         <name>ApexTrigger</name>
     </types>
     <types>
+        <members>Doc2File_Logo</members>
+        <name>ContentAsset</name>
+    </types>
+    <types>
         <members>Convert_Documents_to_Files</members>
         <members>Convert_Documents_to_Files_Lightning</members>
         <name>CustomApplication</name>
@@ -52,28 +56,39 @@
         <members>Doc2File_Log__c.Old_Document_ID__c</members>
         <members>Doc2File_Log__c.Status__c</members>
         <members>Doc2File_Log__c.Summary__c</members>
+        <members>Doc2File_Request__c.Folder_Developer_Name__c</members>
+        <members>Doc2File_Request__c.Folder_ID__c</members>
+        <members>Doc2File_Request__c.Folder_Name__c</members>
+        <members>Doc2File_Request__c.Group_IDs__c</members>
+        <members>Doc2File_Request__c.Library_ID__c</members>
+        <members>Doc2File_Request__c.Library_Permission_ID__c</members>
+        <members>Doc2File_Request__c.Library_Public_Group_ID__c</members>
         <name>CustomField</name>
     </types>
     <types>
         <members>Convert_Document_Folder_to_Library__c</members>
         <members>Doc2File_Event__e</members>
         <members>Doc2File_Log__c</members>
+        <members>Doc2File_Request__c</members>
         <name>CustomObject</name>
     </types>
     <types>
         <members>Convert_Document_Folder_to_Library__c</members>
         <members>Doc2File_Auth_Setup</members>
         <members>Doc2File_Log__c</members>
+        <members>Doc2File_Request__c</members>
         <name>CustomTab</name>
     </types>
     <types>
         <members>Convert_Document_Folder_to_Library__c-Convert Document Folder to Library Layout</members>
         <members>Doc2File_Log__c-Convert Document Folder to Library Log Layout</members>
+        <members>Doc2File_Request__c-Doc2File Request Layout</members>
         <name>Layout</name>
     </types>
     <types>
         <members>Convert_Document_Folder_to_Library__c.All</members>
         <members>Doc2File_Log__c.All</members>
+        <members>Doc2File_Request__c.All</members>
         <name>ListView</name>
     </types>
     <types>
