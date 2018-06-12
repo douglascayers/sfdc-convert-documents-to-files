@@ -287,7 +287,7 @@ public class Doc2File_FolderConversionService {
     // -----------------------------------------------------
 
     private String buildLibraryDeveloperName( String folderDeveloperName ) {
-        return 'doc2file_' + folderDeveloperName;
+        return 'Doc2File_' + folderDeveloperName;
     }
 
 }
