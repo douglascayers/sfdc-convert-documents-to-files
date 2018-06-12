@@ -185,7 +185,7 @@
 
         var conn = new jsforce.Connection({
             accessToken : '{!$Api.Session_Id}',
-            version : '42.0'
+            version : '43.0'
         });
 
         var consumerKey = getRandomLetters( 85 );
