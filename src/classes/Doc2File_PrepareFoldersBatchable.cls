@@ -20,7 +20,6 @@
  *      https://help.salesforce.com/articleView?id=collab_admin_content_libraries.htm&type=5
  *      https://trailhead.salesforce.com/modules/lightning-experience-productivity/units/work-with-notes-and-files
  */
-
 public without sharing class Doc2File_PrepareFoldersBatchable implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
 
     // I got tired of adding new constructor arguments
@@ -119,7 +118,7 @@ public without sharing class Doc2File_PrepareFoldersBatchable implements Databas
 
         System.debug( 'Doc2File_PrepareFoldersBatchable.execute: ' + context );
 
-        SavePoint sp = Database.setSavepoint();
+        SavePoint sp = Database.setSavePoint();
 
         try {
 

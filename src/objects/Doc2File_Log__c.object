@@ -122,8 +122,13 @@
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>CONVERTED</fullName>
+                    <fullName>QUEUED</fullName>
                     <default>true</default>
+                    <label>Queued</label>
+                </value>
+                <value>
+                    <fullName>CONVERTED</fullName>
+                    <default>false</default>
                     <label>Converted</label>
                 </value>
                 <value>

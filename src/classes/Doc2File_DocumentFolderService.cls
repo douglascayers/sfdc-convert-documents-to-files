@@ -14,6 +14,9 @@ public class Doc2File_DocumentFolderService {
 
     public List<DocumentFolderMembership> getDocumentFolderMembership( Set<String> folderDeveloperNames ) {
 
+        List<Folder> folders = new List<Folder>([ SELECT Id, DeveloperName FROM Folder WHERE DeveloperName IN :folderDeveloperNames ]);
+        Map<String, Folder> foldersByNamesMap = Doc2File_SObjectUtils.toMapByKeyField( Folder.DeveloperName, folders );
+
         List<DocumentFolderMembership> folderMemberships = new List<DocumentFolderMembership>();
         Map<String, DocumentFolderMembership> folderMembershipMap = new Map<String, DocumentFolderMembership>();
 
@@ -38,6 +41,7 @@ public class Doc2File_DocumentFolderService {
             DocumentFolderMembership folderMembership = new DocumentFolderMembership();
             folderMembershipMap.put( folder.fullName, folderMembership );
 
+            folderMembership.folderId = foldersByNamesMap.get( folder.fullName ).Id;
             folderMembership.folderName = folder.name;
             folderMembership.folderDeveloperName = folder.fullName;
             folderMembership.accessType = folder.accessType;
@@ -237,6 +241,7 @@ public class Doc2File_DocumentFolderService {
 
     public class DocumentFolderMembership {
 
+        public ID folderId { get; set; }
         public String folderName { get; set; }
         public String folderDeveloperName { get; set; }
         public String accessType { get; set; } // Public, PublicInternal, Shared, Hidden

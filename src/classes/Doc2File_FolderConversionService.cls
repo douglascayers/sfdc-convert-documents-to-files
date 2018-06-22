@@ -6,12 +6,82 @@
  */
 public class Doc2File_FolderConversionService {
 
-    public void prepareDocumentFoldersForConversion( List<Folder> folders, String namedCredential, ID readOnlyLibraryPermissionId, ID readWriteLibraryPermissionId ) {
+    /**
+     * Saves Doc2File_Request__c request records to indicate
+     * the given document folders and their documents should be
+     * converted to libraries and files.
+     *
+     * @param folders
+     *      Expects each folder record to have these fields populated: Id, DeveloperName
+     * @param namedCredential
+     *      For calling Metadata API to determine to what roles and groups a folder is shared
+     * @param readOnlyLibraryPermissionId
+     *      If a folder's public access is read only, what library persmission to grant members?
+     * @param readWriteLibraryPermissionId
+     *      If a folder's public access is read/write, what library permission to grant members?
+     *
+     * @return conversion results with status of either QUEUED, ERROR, or SKIPPED
+     */
+    public List<ConversionResult> prepareDocumentFoldersForConversion( List<Folder> folders, String namedCredential, ID readOnlyLibraryPermissionId, ID readWriteLibraryPermissionId ) {
+
+        System.debug( 'Doc2File_FolderConversionService.prepareDocumentFoldersForConversion' );
+
+        Map<ID, DocumentFolderConversionResult> conversionResultsByFolderIdsMap = initConversionResultByDocumentFolderIdMap( folders );
+
+        List<Doc2File_Request__c> foldersToConvert = buildDocumentFolderConversionRequests( folders, namedCredential, readOnlyLibraryPermissionId, readWriteLibraryPermissionId, conversionResultsByFolderIdsMap );
+
+        insertDocumentFolderConversionRequests( foldersToConvert, conversionResultsByFolderIdsMap );
+
+        // Ensure returned list of results is same order as the folders parameter.
+        // This is common convention among apex DML operations.
+        List<ConversionResult> conversionResults = new List<ConversionResult>();
+        for ( Folder f : folders ) {
+            conversionResults.add( conversionResultsByFolderIdsMap.get( f.Id ) );
+        }
+
+        return conversionResults;
+    }
+
+    private List<Doc2File_Request__c> buildDocumentFolderConversionRequests( List<Folder> folders, String namedCredential, ID readOnlyLibraryPermissionId, ID readWriteLibraryPermissionId, Map<ID, DocumentFolderConversionResult> conversionResultsByFolderIdsMap ) {
+
+        System.debug( 'Doc2File_FolderConversionService.buildDocumentFolderConversionRequests' );
+
+        List<Doc2File_Request__c> folders2libraries = new List<Doc2File_Request__c>();
 
         Map<String, String> publicAccessLibraryPermissionMap = new Map<String, String> {
             'ReadOnly' => readOnlyLibraryPermissionId,
             'ReadWrite' => readWriteLibraryPermissionId
         };
+
+        // filter to just the document folders that still need to be converted
+        Set<String> folderDeveloperNamesToConvert = getDocumentFolderNamesToConvert( folders, conversionResultsByFolderIdsMap );
+
+        if ( folderDeveloperNamesToConvert.size() > 0 ) {
+
+            Doc2File_DocumentFolderService folderService = new Doc2File_DocumentFolderService( namedCredential );
+
+            List<Doc2File_DocumentFolderService.DocumentFolderMembership> folderMemberships = folderService.getDocumentFolderMembership( folderDeveloperNamesToConvert );
+
+            for ( Doc2File_DocumentFolderService.DocumentFolderMembership folderMembership : folderMemberships ) {
+
+                folders2libraries.add( new Doc2File_Request__c(
+                    Folder_ID__c = folderMembership.folderId,
+                    Folder_Name__c = folderMembership.folderName,
+                    Folder_Developer_Name__c = folderMembership.folderDeveloperName,
+                    Group_IDs__c = String.join( folderMembership.getAllGroupIds(), ',' ),
+                    Library_Permission_ID__c = publicAccessLibraryPermissionMap.get( folderMembership.publicFolderAccess )
+                ));
+
+            }
+
+        }
+
+        return folders2libraries;
+    }
+
+    private Set<String> getDocumentFolderNamesToConvert( List<Folder> folders, Map<ID, DocumentFolderConversionResult> conversionResultsByFolderIdsMap ) {
+
+        System.debug( 'Doc2File_FolderConversionService.getDocumentFolderNamesToConvert' );
 
         Map<ID, Folder> foldersByIdsMap = new Map<ID, Folder>( folders );
         Map<String, Folder> foldersByNamesMap = (Map<String, Folder>) Doc2File_SObjectUtils.toMapByKeyField( Folder.DeveloperName, folders );
@@ -32,32 +102,48 @@ public class Doc2File_FolderConversionService {
             WHERE
                 Folder_ID__c IN :foldersByIdsMap.keySet()
         ]) {
+
             Folder f = foldersByIdsMap.get( convertedFolder.Folder_ID__c );
+
             folderDeveloperNamesToConvert.remove( f.DeveloperName );
-            System.debug( LoggingLevel.WARN, 'Document Folder "' + f.DeveloperName + '" has, or is marked to be, converted to a Library. To enqueue folder and its documents to be converted again, delete Doc2File_Request__c record ' + convertedFolder.Id );
+
+            DocumentFolderConversionResult conversionResult = conversionResultsByFolderIdsMap.get( f.Id );
+            conversionResult.status = ConversionResultStatus.SKIPPED;
+            conversionResult.messages.add( 'Document Folder "' + f.DeveloperName + '" has, or is marked to be, converted to a Library. To enqueue folder and its documents to be converted again, delete Doc2File_Request__c record ' + convertedFolder.Id );
+            conversionResult.documentFolderId = f.Id;
+
         }
 
-        if ( folderDeveloperNamesToConvert.size() > 0 ) {
+        return folderDeveloperNamesToConvert;
+    }
 
-            Doc2File_DocumentFolderService folderService = new Doc2File_DocumentFolderService( namedCredential );
+    private void insertDocumentFolderConversionRequests( List<Doc2File_Request__c> requests, Map<ID, DocumentFolderConversionResult> conversionResultsByFolderIdsMap ) {
 
-            List<Doc2File_DocumentFolderService.DocumentFolderMembership> folderMemberships = folderService.getDocumentFolderMembership( folderDeveloperNamesToConvert );
+        Boolean allOrNone = false;
 
-            List<Doc2File_Request__c> folders2libraries = new List<Doc2File_Request__c>();
+        List<Database.SaveResult> saveResults = Database.insert( requests, allOrNone );
 
-            for ( Doc2File_DocumentFolderService.DocumentFolderMembership folderMembership : folderMemberships ) {
+        for ( Integer i = 0; i < saveResults.size(); i++ ) {
 
-                folders2libraries.add( new Doc2File_Request__c(
-                    Folder_ID__c = foldersByNamesMap.get( folderMembership.folderDeveloperName ).Id,
-                    Folder_Name__c = folderMembership.folderName,
-                    Folder_Developer_Name__c = folderMembership.folderDeveloperName,
-                    Group_IDs__c = String.join( folderMembership.getAllGroupIds(), ',' ),
-                    Library_Permission_ID__c = publicAccessLibraryPermissionMap.get( folderMembership.publicFolderAccess )
-                ));
+            Database.SaveResult saveResult = saveResults[i];
+
+            Doc2File_Request__c request = requests[i];
+            ID folderId = request.Folder_ID__c;
+            ConversionResult conversionResult = conversionResultsByFolderIdsMap.get( folderId );
+
+            if ( !saveResult.isSuccess() ) {
+
+                for ( Database.Error err : saveResult.getErrors() ) {
+                    conversionResult.messages.add( err.getMessage() );
+                }
+
+                conversionResult.status = ConversionResultStatus.ERROR;
+
+            } else {
+
+                conversionResult.status = ConversionResultStatus.QUEUED;
 
             }
-
-            insert folders2libraries;
 
         }
 
@@ -286,8 +372,60 @@ public class Doc2File_FolderConversionService {
 
     // -----------------------------------------------------
 
+    private Map<ID, DocumentFolderConversionResult> initConversionResultByDocumentFolderIdMap( List<Folder> folders ) {
+
+        Map<ID, DocumentFolderConversionResult> resultMap = new Map<ID, DocumentFolderConversionResult>();
+
+        for ( Folder f : folders ) {
+
+            DocumentFolderConversionResult result = new DocumentFolderConversionResult();
+            result.documentFolderId = f.Id;
+
+            resultMap.put( f.Id, result );
+
+        }
+
+        return resultMap;
+    }
+
+    // -----------------------------------------------------
+
     private String buildLibraryDeveloperName( String folderDeveloperName ) {
         return 'Doc2File_' + folderDeveloperName;
+    }
+
+    // -----------------------------------------------------
+
+    public abstract class ConversionResult {
+
+        // was conversion success? skipped? error?
+        public ConversionResultStatus status { get; set; }
+
+        // any pertinent message
+        public Set<String> messages { get; set; }
+
+        public ConversionResult() {
+            this.messages = new Set<String>();
+        }
+
+    }
+
+    public class DocumentFolderConversionResult extends ConversionResult {
+
+        // id of the document folder to convert
+        public ID documentFolderId { get; set; }
+
+    }
+
+    public class DocumentConversionResult extends ConversionResult {
+
+        // id of the document to convert
+        public ID documentId { get; set; }
+
+    }
+
+    public enum ConversionResultStatus {
+        QUEUED, CONVERTED, SKIPPED, ERROR
     }
 
 }
