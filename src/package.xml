@@ -18,6 +18,9 @@
         <members>Doc2File_SObjectUtilsTest</members>
         <members>MetadataService</members>
         <members>MetadataServiceTest</members>
+        <members>Doc2File_LoggerServiceTest</members>
+        <members>Doc2File_LoggerService</members>
+        <members>Doc2File_EmailServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
